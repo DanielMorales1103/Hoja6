@@ -20,6 +20,7 @@ public class Principal {
 	public static void main(String[] args) {
 		// Lectura de archivo
 		try {
+			System.out.println("Bienvenido al programa :)\nPorfavor los nombres de los productos ingresarlos con la primera letra mayuscula y con tíldes o el programa lo identificará como un producto diferente :)");
 			String ruta = "C:\\Users\\pc\\Documents\\uvg\\sem3\\algoritmos\\eclipse\\Hoja6\\Inventario.txt";
 			File archivo = new File(ruta);
 			ArrayList<String> datos = new ArrayList<String>();
@@ -36,7 +37,7 @@ public class Principal {
 			ArrayList<String> Cat = new ArrayList<String>();
 			ArrayList<String> Produc = new ArrayList<String>();
 			for (int i = 0; i<datos.size();i++) {
-				String[] temp = datos.get(0).split("\\|");
+				String[] temp = datos.get(i).split("\\|");
 				Cat.add(temp[0].trim());
 				Produc.add(temp[1].trim());
 			}
@@ -45,7 +46,22 @@ public class Principal {
 			boolean ciclo1 = true;
 			Controladora inv = new Controladora();
 			Scanner sr = new Scanner(System.in);
-			String menu = "¿Qué desa hacer?\n1. Agregar producto\n2. Mostrar categoria de producto\n3. Mostrar datos de categoria \n4. Mostrar datos de categoria en orden\n5. Mostrar Inventario\n6. Mostrar Inventario ordenado\n7. Salir";
+			//crear hash con los datos del archivo
+			int op=0;
+			boolean bandera = true;
+			while(bandera) {
+				System.out.println("¿Cómo desea que se maneje?\n1. HashMap\n2. TreeMap\n3. LinkedHashMap");
+				op = sr.nextInt();				
+				if (op >=1 || op<=3)
+					bandera = false;
+				else {
+					System.out.println("Escoja una opcion válida");
+				}
+			}
+			inv.crearHash(Cat, Produc, op);
+			
+			
+			String menu = "¿Qué desa hacer?\n1. Agregar producto\n2. Mostrar categoria de producto\n3. Mostrar datos de coleccion \n4. Mostrar datos de coleccion en orden\n5. Mostrar Inventario\n6. Mostrar Inventario ordenado\n7. Salir";
 			while(ciclo1) {
 				System.out.println(menu);
 				int opcion = sr.nextInt();
@@ -100,34 +116,15 @@ public class Principal {
 					break;
 				case 2://Mostrar categoria de producto
 					System.out.println("Nombre del producto");
+					sr.nextLine();
 					String producto1 = sr.nextLine();
 					System.out.println(inv.MostrarCategoria(producto1));
 					break;
 				case 3://mostrar datos de categoria
-					boolean ciclo3 = true;
-					int categoria1 = 0;
-					while (ciclo3) {
-						System.out.println("¿Qué categoria desea?\n1. Mueble de terraza\n2. Sillones de maseja\n3. Bebidas\n4. Condimentos\n5. Frutas\n6. Carnes\n7. Lácteos");
-						categoria1 = sr.nextInt();
-						if (categoria1 >=1 || categoria1<=7)
-							ciclo3 = false;
-						else
-							System.out.println("Escoja una categoria válida");
-					}
-					System.out.println(inv.MostrarProductos(categoria1));
+					System.out.println(inv.MostrarProductos());
 					break;
 				case 4://mostrar datos de categoria en orden
-					boolean ciclo4 = true;
-					int categoria2 = 0;
-					while (ciclo4) {
-						System.out.println("¿Qué categoria desea?\n1. Mueble de terraza\n2. Sillones de maseja\n3. Bebidas\n4. Condimentos\n5. Frutas\n6. Carnes\n7. Lácteos");
-						categoria2 = sr.nextInt();
-						if (categoria2 >=1 || categoria2<=7)
-							ciclo4 = false;
-						else
-							System.out.println("Escoja una categoria válida");
-					}
-					System.out.println(inv.MostrarProductosOrdenados(categoria2));
+					System.out.println(inv.MostrarProductosOrdenados());
 					break;
 				case 5://mostrar inventario	
 					System.out.println(inv.MostrarInventario());
@@ -149,5 +146,4 @@ public class Principal {
 			}
 		}
 	}
-
 
